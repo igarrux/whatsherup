@@ -5,7 +5,7 @@ describe('whatsappService', () => {
 	it('should be defined', () => {
 		expect(WhatsAppService).toBeDefined()
 	})
-	it('should return', async () => {
+	it('connectByQR should return the QRCode', async () => {
 		mock.module('@wppconnect-team/wppconnect', () => ({
 			create: ({ catchQR }: any) => catchQR(null, 'test'),
 		}))
