@@ -3,11 +3,15 @@ import type { ConnectByPIN, PuppeteerLaunchOptions } from './types'
 import { logger } from '../../../logger'
 import { ERRORS } from './messages/errors'
 
-defaultLogger.level = 'null'
+// defaultLogger.level = 'null'
 const numberRegex = /\d/
 export class WhatsAppService {
 	public client: Whatsapp | null = null
+	private onReady: (client: Whatsapp) => void = () => null
 
+	set setOnready(callback: (client: Whatsapp) => void) {
+		this.onReady = callback
+	}
 	public async connectByQR(sessionName: string) {
 		try {
 			return await new Promise(async (res) => {
@@ -18,6 +22,7 @@ export class WhatsAppService {
 					logQR: false,
 					catchQR: (_, asciiQR) => res(asciiQR),
 				})
+				this.onReady(this.client)
 			})
 		} catch (error) {
 			logger.error(error)
@@ -43,6 +48,7 @@ export class WhatsAppService {
 					puppeteerOptions: this.puppeteerOptions,
 					catchLinkCode: (pin) => res(pin),
 				})
+				this.onReady(this.client)
 			})
 		} catch (error) {
 			logger.error(error)
