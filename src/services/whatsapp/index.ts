@@ -7,16 +7,21 @@ import { ERRORS } from './messages/errors'
 const numberRegex = /\d/
 export class WhatsAppService {
 	public client: Whatsapp | null = null
+	public sessionName: string = ''
 	private onReady: (client: Whatsapp) => void = () => null
+
+	constructor(sessionName: string) {
+		this.sessionName = sessionName
+	}
 
 	set setOnready(callback: (client: Whatsapp) => void) {
 		this.onReady = callback
 	}
-	public async connectByQR(sessionName: string) {
+	public async connectByQR() {
 		try {
 			return await new Promise(async (res) => {
 				this.client = await create({
-					session: sessionName,
+					session: this.sessionName,
 					headless: 'shell',
 					puppeteerOptions: this.puppeteerOptions,
 					logQR: false,
@@ -29,7 +34,7 @@ export class WhatsAppService {
 		}
 	}
 
-	public async connectByPIN({ callSing, phone, session }: ConnectByPIN) {
+	public async connectByPIN({ callSing, phone }: ConnectByPIN) {
 		const sing = callSing.toString().replace('+', '')
 		const phoneNumber = sing + phone.toString()
 
@@ -43,7 +48,7 @@ export class WhatsAppService {
 			return await new Promise(async (res) => {
 				this.client = await create({
 					phoneNumber,
-					session,
+					session: this.sessionName,
 					headless: 'shell',
 					puppeteerOptions: this.puppeteerOptions,
 					catchLinkCode: (pin) => res(pin),

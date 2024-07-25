@@ -9,8 +9,8 @@ describe('whatsappService', () => {
 		mock.module('@wppconnect-team/wppconnect', () => ({
 			create: ({ catchQR }: any) => catchQR(null, 'test'),
 		}))
-		const wppService = new WhatsAppService()
-		const qr = await wppService.connectByQR('session')
+		const wppService = new WhatsAppService('session')
+		const qr = await wppService.connectByQR()
 		expect(qr).toBe('test')
 		jest.restoreAllMocks()
 	})
@@ -20,11 +20,10 @@ describe('whatsappService', () => {
 			mock.module('@wppconnect-team/wppconnect', () => ({
 				create: ({ catchLinkCode }: any) => catchLinkCode('test'),
 			}))
-			const wppService = new WhatsAppService()
+			const wppService = new WhatsAppService('session')
 			const PIN = await wppService.connectByPIN({
 				callSing: 57,
 				phone: 3,
-				session: 'miaw',
 			})
 			expect(PIN).toBe('test')
 			mock.restore()
