@@ -14,4 +14,20 @@ describe('whatsappService', () => {
 		expect(qr).toBe('test')
 		jest.restoreAllMocks()
 	})
+
+	describe('connectByPIN', () => {
+		it('connectByPIN must be return the pin', async () => {
+			mock.module('@wppconnect-team/wppconnect', () => ({
+				create: ({ catchLinkCode }: any) => catchLinkCode('test'),
+			}))
+			const wppService = new WhatsAppService()
+			const PIN = await wppService.connectByPIN({
+				callSing: 57,
+				phone: 3,
+				session: 'miaw',
+			})
+			expect(PIN).toBe('test')
+			mock.restore()
+		})
+	})
 })
