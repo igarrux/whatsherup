@@ -1,7 +1,12 @@
 {
     "name": "whatsherup",
-    "module": "main.ts",
+    "module": "src/main.ts",
     "type": "module",
+    "scripts": {
+        "dev": "bun --watch src/main.ts",
+        "run": "bun src/main.ts",
+        "test": "bun test"
+    },
     "devDependencies": {
         "@types/bun": "latest"
     },
