@@ -6,7 +6,7 @@ import { ERRORS } from './messages/errors'
 defaultLogger.level = 'null'
 const numberRegex = /\d/
 export class WhatsAppService {
-	private client: Whatsapp | null = null
+	public client: Whatsapp | null = null
 
 	public async connectByQR(sessionName: string) {
 		try {
