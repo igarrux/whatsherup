@@ -4,7 +4,7 @@ import type {
 	PuppeteerLaunchOptions,
 	WhatsappCallback,
 } from './types'
-import { logger } from '../../../logger'
+import { logger } from '../logger'
 import { ERRORS } from './messages/errors'
 
 defaultLogger.level = 'null'
@@ -83,10 +83,3 @@ export class WhatsAppService {
 		],
 	}
 }
-
-/**
- * Done: Metodo para obtener el QR
- * Done: Medoto para iniciar session por pin
- * Todo: Callback para recibir mensajes
- * TODO Metodo para enviar mensajes
- */
