@@ -7,14 +7,14 @@ import type {
 import { logger } from '../logger'
 import { ERRORS } from './messages/errors'
 
-defaultLogger.level = 'null'
 const numberRegex = /\D/
 export class WhatsAppService {
 	public client: Whatsapp | null = null
 	public sessionName: string = ''
 	private onReady?: WhatsappCallback
 	private _waitUntilReady?: WhatsappCallback
-	constructor(sessionName: string) {
+	constructor(sessionName: string, logLevel: string = 'null') {
+		defaultLogger.level = logLevel
 		this.sessionName = sessionName
 	}
 
