@@ -9,12 +9,12 @@ import { logger } from '../logger'
 import { ERRORS } from './messages/errors'
 
 const numberRegex = /\D/
-export class WhatsAppService {
+export class WhatsHerUp {
 	public client: Whatsapp | null = null
 	public sessionName: string = ''
 	private onReady?: WhatsappCallback
 	private _waitUntilReady?: WhatsappCallback
-	constructor(sessionName: string, logLevel: logLevel = 'silly') {
+	constructor(sessionName: string, logLevel: logLevel = 'error') {
 		defaultLogger.level = logLevel
 		this.sessionName = sessionName
 	}
@@ -85,4 +85,4 @@ export class WhatsAppService {
 	}
 }
 
-export default WhatsAppService
+export default WhatsHerUp

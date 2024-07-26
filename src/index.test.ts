@@ -1,16 +1,16 @@
 import { describe, it, expect, mock, jest } from 'bun:test'
-import { WhatsAppService } from '.'
+import { WhatsHerUp } from '.'
 import { ERRORS } from './messages/errors'
 
-describe('whatsappService', () => {
+describe('WhatsHerUp', () => {
 	it('should be defined', () => {
-		expect(WhatsAppService).toBeDefined()
+		expect(WhatsHerUp).toBeDefined()
 	})
 	it('connectByQR should return the QRCode', async () => {
 		mock.module('@wppconnect-team/wppconnect', () => ({
 			create: ({ catchQR }: any) => catchQR(null, 'test'),
 		}))
-		const wppService = new WhatsAppService('session')
+		const wppService = new WhatsHerUp('session')
 		const qr = await wppService.connectByQR()
 		expect(qr).toBe('test')
 		jest.restoreAllMocks()
@@ -21,7 +21,7 @@ describe('whatsappService', () => {
 			mock.module('@wppconnect-team/wppconnect', () => ({
 				create: ({ catchLinkCode }: any) => catchLinkCode('test'),
 			}))
-			const wppService = new WhatsAppService('session')
+			const wppService = new WhatsHerUp('session')
 			const PIN = await wppService.connectByPIN({
 				callSing: 57,
 				phone: 3,
@@ -34,7 +34,7 @@ describe('whatsappService', () => {
 			mock.module('@wppconnect-team/wppconnect', () => ({
 				create: ({ catchLinkCode }: any) => catchLinkCode('test'),
 			}))
-			const wppService = new WhatsAppService('session')
+			const wppService = new WhatsHerUp('session')
 
 			expect(
 				wppService.connectByPIN({
@@ -54,7 +54,7 @@ describe('whatsappService', () => {
 					return 'client'
 				},
 			}))
-			const wppService = new WhatsAppService('session')
+			const wppService = new WhatsHerUp('session')
 			wppService.connectByQR()
 			expect(wppService.waitUntilReady()).resolves.toBe('client' as any)
 			mock.restore()
@@ -67,7 +67,7 @@ describe('whatsappService', () => {
 					return 'client'
 				},
 			}))
-			const wppService = new WhatsAppService('session')
+			const wppService = new WhatsHerUp('session')
 			wppService['client'] = 'client2' as any
 			expect(wppService.waitUntilReady()).resolves.toBe('client2' as any)
 			mock.restore()
