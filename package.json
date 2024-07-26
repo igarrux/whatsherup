@@ -1,10 +1,40 @@
 {
     "name": "whatsherup",
-    "module": "src/main.ts",
-    "type": "module",
+    "module": "dist/src/index.js",
+    "main": "dist/src/index.js",
+    "version": "0.0.1",
+    "author": {
+        "email": "garruxx@gmail.com",
+        "name": "Jhon Guerrero (Garrux)",
+        "url": "https://igarrux.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/igarrux/whatsherup"
+    },
+    "description": "Send and recibe whatsapp messages on your server",
+    "keywords": [
+        "whatsapp",
+        "api",
+        "simple",
+        "whatsapp simple",
+        "api whatsapp",
+        "api without whatsapp bussines",
+        "free whatsapp api",
+        "whatsapp service",
+        "send whatsapp",
+        "whatsapp messages",
+        "messages",
+        "message"
+    ],
+    "bugs": {
+        "url": "https://github.com/igarrux/whatsherup/issues"
+    },
+    "license": "MIT",
+    "type": "commonjs",
     "scripts": {
         "dev": "bun --watch src/main.ts",
-        "run": "bun src/main.ts",
+        "build": "bun tsc",
         "test": "bun test"
     },
     "devDependencies": {
