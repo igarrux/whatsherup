@@ -1,6 +1,7 @@
 import { create, defaultLogger, Whatsapp } from '@wppconnect-team/wppconnect'
 import type {
 	ConnectByPIN,
+	logLevel,
 	PuppeteerLaunchOptions,
 	WhatsappCallback,
 } from './types'
@@ -13,7 +14,7 @@ export class WhatsAppService {
 	public sessionName: string = ''
 	private onReady?: WhatsappCallback
 	private _waitUntilReady?: WhatsappCallback
-	constructor(sessionName: string, logLevel: string = 'null') {
+	constructor(sessionName: string, logLevel: logLevel = 'silly') {
 		defaultLogger.level = logLevel
 		this.sessionName = sessionName
 	}

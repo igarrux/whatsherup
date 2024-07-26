@@ -6,3 +6,11 @@ export interface ConnectByPIN {
 }
 
 export type WhatsappCallback = (client: Whatsapp) => void
+export type logLevel =
+	| 'error'
+	| 'warn'
+	| 'info'
+	| 'http'
+	| 'verbose'
+	| 'debug'
+	| 'silly'
