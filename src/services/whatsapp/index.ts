@@ -1,15 +1,19 @@
 import { create, defaultLogger, Whatsapp } from '@wppconnect-team/wppconnect'
-import type { ConnectByPIN, PuppeteerLaunchOptions } from './types'
+import type {
+	ConnectByPIN,
+	PuppeteerLaunchOptions,
+	WhatsappCallback,
+} from './types'
 import { logger } from '../../../logger'
 import { ERRORS } from './messages/errors'
 
-// defaultLogger.level = 'null'
-const numberRegex = /\d/
+defaultLogger.level = 'null'
+const numberRegex = /\D/
 export class WhatsAppService {
 	public client: Whatsapp | null = null
 	public sessionName: string = ''
-	private onReady: (client: Whatsapp) => void = () => null
-
+	private onReady?: WhatsappCallback
+	private _waitUntilReady?: WhatsappCallback
 	constructor(sessionName: string) {
 		this.sessionName = sessionName
 	}
@@ -27,7 +31,8 @@ export class WhatsAppService {
 					logQR: false,
 					catchQR: (_, asciiQR) => res(asciiQR),
 				})
-				this.onReady(this.client)
+				this.onReady?.(this.client)
+				this._waitUntilReady?.(this.client)
 			})
 		} catch (error) {
 			logger.error(error)
@@ -39,7 +44,7 @@ export class WhatsAppService {
 		const phoneNumber = sing + phone.toString()
 
 		// Verify if the phone number is valid
-		if (!numberRegex.test(phoneNumber)) {
+		if (numberRegex.test(phoneNumber)) {
 			logger.error(ERRORS.phoneError)
 			throw new Error(ERRORS.phoneError)
 		}
@@ -53,13 +58,18 @@ export class WhatsAppService {
 					puppeteerOptions: this.puppeteerOptions,
 					catchLinkCode: (pin) => res(pin),
 				})
-				this.onReady(this.client)
+				this._waitUntilReady?.(this.client)
+				this.onReady?.(this.client)
 			})
 		} catch (error) {
 			logger.error(error)
 		}
 	}
 
+	public async waitUntilReady() {
+		if (this.client) return this.client
+		return new Promise<Whatsapp>((res) => (this._waitUntilReady = res))
+	}
 	private puppeteerOptions: PuppeteerLaunchOptions = {
 		headless: 'shell',
 		args: [
