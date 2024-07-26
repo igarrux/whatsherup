@@ -83,3 +83,5 @@ export class WhatsAppService {
 		],
 	}
 }
+
+export default WhatsAppService
