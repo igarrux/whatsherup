@@ -45,4 +45,32 @@ describe('whatsappService', () => {
 			mock.restore()
 		})
 	})
+
+	describe('waitUtilReady', () => {
+		it('should be return the client when service is ready', () => {
+			mock.module('@wppconnect-team/wppconnect', () => ({
+				create: async ({ catchQR }: any) => {
+					catchQR('test')
+					return 'client'
+				},
+			}))
+			const wppService = new WhatsAppService('session')
+			wppService.connectByQR()
+			expect(wppService.waitUntilReady()).resolves.toBe('client' as any)
+			mock.restore()
+		})
+
+		it('should be return the client if this exist', () => {
+			mock.module('@wppconnect-team/wppconnect', () => ({
+				create: async ({ catchQR }: any) => {
+					catchQR('test')
+					return 'client'
+				},
+			}))
+			const wppService = new WhatsAppService('session')
+			wppService['client'] = 'client2' as any
+			expect(wppService.waitUntilReady()).resolves.toBe('client2' as any)
+			mock.restore()
+		})
+	})
 })
